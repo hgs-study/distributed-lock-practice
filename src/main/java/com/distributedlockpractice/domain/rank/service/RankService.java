@@ -15,20 +15,20 @@ import java.util.concurrent.TimeUnit;
 public class RankService {
 
     private final RedissonClient redissonClient;
-    private static final String RANK_COUNT = "redis-count";
+    private static final String RANK_COUNT = "rank-count";
 
-    public void countDown(RankCount rankCount){
+    public void countDown(){
         final RLock lock = redissonClient.getLock(RANK_COUNT);
 
         try {
             final boolean isLocked = lock.tryLock(1, 3, TimeUnit.SECONDS);
 
             if(!isLocked){
-                log.info("["+Thread.currentThread().getName()+"] 현재 남은 인원 : "+ rankCount.getCount());
+                log.info("["+Thread.currentThread().getName()+"] 현재 남은 인원 : "+ currentCount());
             }
 
             log.info("현재 진행중인 사람 : "+ Thread.currentThread().getName());
-            rankCount.minusCount();
+            setCount(currentCount() - 1); // minusCount
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -36,5 +36,13 @@ public class RankService {
             if(lock != null && lock.isLocked())
                 lock.unlock();
         }
+    }
+    
+    public void setCount(int count){
+        redissonClient.getBucket(RANK_COUNT).set(count);
+    }
+
+    private int currentCount(){
+        return (int) redissonClient.getBucket(RANK_COUNT).get();
     }
 }

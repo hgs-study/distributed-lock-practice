@@ -2,3 +2,8 @@ spring:
   redis:
     host: localhost
     port: 6379
+
+redis:
+  rank:
+    key: rank-count
+    refresh-range: 10

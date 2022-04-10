@@ -17,15 +17,16 @@ public class RankServiceTest {
     @Autowired
     private RankService rankService;
 
-    private static int THREAD_LENGTH = 100;
+    private static int THREAD_LENGTH = 10000;
 
     @Test
     public void 랭크_카운트다운_테스트() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(THREAD_LENGTH);
         RankCount rankCount = new RankCount(THREAD_LENGTH);
 
+        rankService.setCount(THREAD_LENGTH);
         List<Thread> workers = Stream
-                                .generate(() -> new Thread(new RankCountDownWorker(countDownLatch, rankCount)))
+                                .generate(() -> new Thread(new RankCountDownWorker(countDownLatch)))
                                 .limit(THREAD_LENGTH)
                                 .collect(Collectors.toList());
 
@@ -35,16 +36,14 @@ public class RankServiceTest {
 
     public class RankCountDownWorker implements Runnable{
         private CountDownLatch countDownLatch;
-        private RankCount rankCount;
 
-        public RankCountDownWorker(CountDownLatch countDownLatch, RankCount rankCount) {
+        public RankCountDownWorker(CountDownLatch countDownLatch) {
             this.countDownLatch = countDownLatch;
-            this.rankCount = rankCount;
         }
 
         @Override
         public void run() {
-            rankService.countDown(rankCount);
+            rankService.countDown();
             countDownLatch.countDown();
         }
     }
