@@ -8,5 +8,5 @@
 
 - redis sorted set
 ```
-- https://jupiny.com/2020/03/28/redis-sorted-set/
+https://jupiny.com/2020/03/28/redis-sorted-set/
 ```
