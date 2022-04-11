@@ -1,4 +1,5 @@
 # distributed-lock-practice
+- 현재 진행중입니다.
 
 - Redis distributed-locks
 ```
@@ -13,6 +14,5 @@ https://jupiny.com/2020/03/28/redis-sorted-set/
 - 선착순 100명 남은 인원 확인
 ![image](https://user-images.githubusercontent.com/76584547/162608088-01b6cff2-4bbf-4176-bd6f-e558afeaeaa8.png)
 
-- 현재 진행중입니다.
 
 
