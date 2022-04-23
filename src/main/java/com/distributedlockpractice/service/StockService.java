@@ -30,16 +30,16 @@ public class StockService {
 
         try {
             if(!lock.tryLock(1, 3, TimeUnit.SECONDS)){
-                log.info("["+worker+"] 현재 남은 재고 : "+ currentStock(key));
+                log.info("[{}] 현재 남은 재고 : {}", worker, currentStock(key));
             }
 
             final int stock = currentStock(key);
             if(stock <= EMPTY){
-                log.info("["+worker+"] 현재 남은 재고가 없습니다. ("+stock+"개)");
+                log.info("[{}] 현재 남은 재고가 없습니다. ({}개)", worker, stock);
                 return;
             }
 
-            log.info("현재 진행중인 사람 : "+ worker +" & 현재 남은 재고 : " +stock+"개");
+            log.info("현재 진행중인 사람 : {} & 현재 남은 재고 : {}개", worker, stock);
             setStock(key, stock - count);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -53,14 +53,14 @@ public class StockService {
     public void decreaseNoLock(final String key, final int count){
         final String worker = Thread.currentThread().getName();
         final int stock = currentStock(key);
-        log.info("["+worker+"] 현재 남은 재고 : "+ currentStock(key));
+        log.info("[{}] 현재 남은 재고 : {}", worker, currentStock(key));
 
         if(stock <= EMPTY){
-            log.info("["+worker+"] 현재 남은 재고가 없습니다. ("+stock+"개)");
+            log.info("[{}] 현재 남은 재고가 없습니다. ({}개)", worker, stock);
             return;
         }
 
-        log.info("현재 진행중인 사람 : "+ worker +" & 현재 남은 재고 : " +stock+"개");
+        log.info("현재 진행중인 사람 : {} & 현재 남은 재고 : {}개", worker, stock);
         setStock(key, stock - count);
     }
 
