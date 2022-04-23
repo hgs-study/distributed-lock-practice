@@ -4,6 +4,5 @@ spring:
     port: 6379
 
 redis:
-  rank:
-    key: rank-count
-    refresh-range: 10
+  stock:
+    prefix: stocks
