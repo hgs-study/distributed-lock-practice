@@ -23,5 +23,8 @@
 ```
 https://redis.io/docs/reference/patterns/distributed-locks/
 ```
-
+- 블로그 정리
+```
+ https://velog.io/@hgs-study/redisson-distributed-lock
+```
 
