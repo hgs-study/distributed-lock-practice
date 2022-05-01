@@ -29,9 +29,8 @@ public class StockService {
         final String worker = Thread.currentThread().getName();
 
         try {
-            if(!lock.tryLock(1, 3, TimeUnit.SECONDS)){
-                log.info("[{}] 현재 남은 재고 : {}", worker, currentStock(key));
-            }
+            if(!lock.tryLock(1, 3, TimeUnit.SECONDS))
+                return;
 
             final int stock = currentStock(key);
             if(stock <= EMPTY){
